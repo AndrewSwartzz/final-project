@@ -6,22 +6,28 @@ var last_direction = "Left"
 @export var roll_speed = 125
 @export var roll_duration = 0.7
 @export var health = 5
+@onready var bug_label = get_tree().get_first_node_in_group("bug_label")
+@export var exit_door : Node
 
 var rolling = false
 var roll_timer = 0.0
 var invincible = false
 var roll_direction = Vector2.ZERO
 
-var attacking = false
-var attack_timer = 0.0
-@export var attack_duration = 0.4
+var catching = false
+var catch_timer = 0.0
+@export var catch_duration = 0.4
+
+var bugs_caught = 0
 
 @onready var sprite = $AnimatedSprite2D
 @onready var dust = $DustParticles
 
-@onready var sword_pivot = $SwordPivot
-@onready var sword_sprite = $SwordPivot/SwordSprite
-@onready var sword_hitbox = $SwordPivot/SwordHitbox
+@onready var net_pivot = $NetPivot
+@onready var net_sprite = $NetPivot/NetSprite
+@onready var net_hitbox = $NetPivot/NetHitbox
+@onready var tilemap = get_parent().get_node("TileMap")
+@export var bug_scene : PackedScene
 
 
 func _physics_process(delta):
@@ -38,13 +44,13 @@ func _physics_process(delta):
 		return
 
 
-	if attacking:
-		attack_timer -= delta
+	if catching:
+		catch_timer -= delta
 
-		if attack_timer <= 0:
-			attacking = false
-			sword_hitbox.monitoring = false
-			sword_sprite.visible = false
+		if catch_timer <= 0:
+			catching = false
+			net_hitbox.monitoring = false
+			net_sprite.visible = false
 
 		return
 
@@ -63,13 +69,13 @@ func _physics_process(delta):
 		direction_y = -1
 
 
-	if Input.is_action_just_pressed("roll") and not attacking:
+	if Input.is_action_just_pressed("roll") and not catching:
 		start_roll(direction_x, direction_y)
 		return
 
 
-	if Input.is_action_just_pressed("attack") and not rolling:
-		start_attack()
+	if Input.is_action_just_pressed("catch") and not rolling:
+		start_catch()
 		return
 
 
@@ -79,6 +85,9 @@ func _physics_process(delta):
 	move_and_slide()
 
 	update_animation(direction_x, direction_y)
+	
+	if Input.is_action_just_pressed("interact"):
+		try_interact()
 
 
 
@@ -128,29 +137,37 @@ func start_roll(dx, dy):
 
 
 
-func start_attack():
+func start_catch():
 
-	attacking = true
-	attack_timer = attack_duration
+	catching = true
+	catch_timer = catch_duration
 
-	sword_sprite.visible = true
-	sword_hitbox.monitoring = true
+	net_sprite.visible = true
+	net_hitbox.monitoring = true
 
 	if last_direction == "Right":
-		sword_pivot.position.x = 10
-		sword_sprite.rotation_degrees = 90
+		net_pivot.position.x = 17
+		net_sprite.flip_v = true
 	else:
-		sword_pivot.position.x = -18
-		sword_sprite.rotation_degrees = -90
+		net_pivot.position.x = -12
+		net_sprite.flip_v = false
 
-	sword_sprite.play("attackRight")
+	net_sprite.play("catchRight")
 
 
 
-func _on_sword_hitbox_body_entered(body):
+func _on_net_hitbox_body_entered(body):
 
-	if body.is_in_group("enemy"):
-		body.take_damage(1)
+	if body.is_in_group("bug"):
+		body.queue_free()  
+		bugs_caught += 1
+		if bugs_caught >= 4:
+			if exit_door:
+				exit_door.unlock()
+		update_bug_ui()
+		print("Bugs caught:", bugs_caught)
+
+	check_breakable_tile()
 
 
 
@@ -176,3 +193,87 @@ func take_damage(amount):
 func die():
 	print("Player died")
 	get_tree().reload_current_scene()
+	
+
+func check_breakable_tile():
+
+	var hit_position = net_hitbox.global_position
+
+	var tile_coords = tilemap.local_to_map(tilemap.to_local(hit_position))
+	var tile_data = tilemap.get_cell_tile_data(1, tile_coords) 
+
+	if tile_data and tile_data.get_custom_data("breakable"):
+
+		if tile_data.get_custom_data("spawns_bug"):
+			spawn_bug(tile_coords)
+
+		tilemap.erase_cell(1, tile_coords) 
+		
+func try_interact():
+
+	var tile_size = tilemap.tile_set.tile_size.x
+
+	var directions = [
+		Vector2.RIGHT,
+		Vector2.LEFT,
+		Vector2.UP,
+		Vector2.DOWN
+	]
+
+	for dir in directions:
+
+		var check_pos = global_position + (dir * tile_size)
+		var tile_coords = tilemap.local_to_map(tilemap.to_local(check_pos))
+
+		for layer in range(tilemap.get_layers_count()):
+
+			var tile_data = tilemap.get_cell_tile_data(layer, tile_coords)
+
+			if tile_data and tile_data.get_custom_data("door"):
+
+				var door_id = tile_data.get_custom_data("door_id")
+				enter_linked_door(tile_coords, door_id)
+				return
+				
+func enter_linked_door(current_coords, door_id):
+
+	var found_target = false
+
+	for layer in range(tilemap.get_layers_count()):
+
+		var used_cells = tilemap.get_used_cells(layer)
+
+		for coords in used_cells:
+
+			if coords == current_coords:
+				continue
+
+			var tile_data = tilemap.get_cell_tile_data(layer, coords)
+
+			if tile_data and tile_data.get_custom_data("door"):
+
+				if tile_data.get_custom_data("door_id") == door_id:
+
+					teleport_to(coords)
+					return  
+		
+func teleport_to(target_coords):
+
+	var world_pos = tilemap.map_to_local(target_coords)
+
+	global_position = world_pos
+	velocity = Vector2.ZERO
+	
+func spawn_bug(tile_coords):
+
+	var world_pos = tilemap.map_to_local(tile_coords)
+	var bug = bug_scene.instantiate()
+	bug.global_position = world_pos + Vector2(0, -30)
+
+	get_parent().add_child(bug)
+	
+func update_bug_ui():
+	if bug_label:
+		bug_label.text = "Bugs: " + str(bugs_caught)
+	
+	

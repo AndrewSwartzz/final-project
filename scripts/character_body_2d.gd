@@ -1,74 +1,83 @@
 extends CharacterBody2D
 
-@export var speed : float = 80
-@export var health : int = 3
-@export var knockback_force : float = 200
+@export var speed : float = 60
+@export var flee_speed : float = 100
+@export var detection_radius : float = 80
 
 var direction = Vector2.LEFT
-var knockback_velocity = Vector2.ZERO
-var dying = false
+var change_dir_timer = 0.0
+var fleeing = false
+var caught = false
 
 @onready var sprite = $Sprite2D
 
 
+func _ready():
+	add_to_group("bug")
+
+
 func _physics_process(delta):
 
-	if dying:
+	if caught:
 		return
 
-	# Apply knockback
-	if knockback_velocity.length() > 0:
-		velocity = knockback_velocity
-		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 600 * delta)
+	var player = get_tree().get_first_node_in_group("player")
+
+	# Flee from player
+	if player:
+		var distance = global_position.distance_to(player.global_position)
+		if distance < detection_radius:
+			fleeing = true
+			direction = (global_position - player.global_position).normalized()
+		else:
+			fleeing = false
+
+	# Movement
+	if fleeing:
+		velocity = direction * flee_speed
 	else:
+		change_dir_timer -= delta
+
+		if change_dir_timer <= 0:
+			direction = Vector2(
+				randf_range(-1, 1),
+				randf_range(-1, 1)
+			).normalized()
+			change_dir_timer = randf_range(1.0, 3.0)
+
 		velocity = direction * speed
 
 	move_and_slide()
 
-	if is_on_wall():
-		direction *= -1
+	update_animation()
 
 
-func take_damage(amount):
+# ✅ ONLY UP / DOWN ANIMATION
+func update_animation():
 
-	if dying:
+	if velocity.length() < 5:
 		return
 
-	health -= amount
-
-	# Flash red
-	sprite.modulate = Color(1,0.2,0.2)
-
-	# Knockback
-	var player = get_tree().get_first_node_in_group("player")
-	if player:
-		var knock_dir = (global_position - player.global_position).normalized()
-		knockback_velocity = knock_dir * knockback_force
-
-	flash_reset()
-
-	if health <= 0:
-		die()
+	if velocity.y > 0:
+		if sprite.animation != "moveDown":
+			sprite.play("moveDown")
+	else:
+		if sprite.animation != "moveUp":
+			sprite.play("moveUp")
 
 
-func flash_reset():
-	await get_tree().create_timer(0.12).timeout
-	sprite.modulate = Color(1,1,1)
+# ⭐ CATCH FUNCTION
+func get_caught():
 
+	if caught:
+		return
 
-func die():
-
-	dying = true
+	caught = true
 	velocity = Vector2.ZERO
 
 	# Fade out
-	for i in range(10):
-		sprite.modulate.a -= 0.1
-		await get_tree().create_timer(0.04).timeout
+	for i in range(8):
+		sprite.modulate.a -= 0.125
+		await get_tree().create_timer(0.05).timeout
 
 	queue_free()
-	
-func _on_area_2d_body_entered(body):
-
-	if body.is_in_group("player"):
-		body.take_damage(1)

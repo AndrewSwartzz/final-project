@@ -21,11 +21,11 @@ script = ExtResource("1_tx5wa")
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 0
-offset_left = -56.0
+offset_left = 6.0
 offset_top = -121.0
-offset_right = 277.0
+offset_right = 339.0
 offset_bottom = -52.0
-text = "Dungeon Test"
+text = "Mandible"
 label_settings = SubResource("LabelSettings_cllq7")
 
 [node name="StartButton" type="Button" parent="."]
@@ -44,7 +44,8 @@ offset_right = 242.0
 offset_bottom = 228.0
 text = " Arrow Keys to Move
 Space to Roll
-Click to Attack"
+Click to use Net
+E to Interact"
 label_settings = SubResource("LabelSettings_tx5wa")
 horizontal_alignment = 1
 

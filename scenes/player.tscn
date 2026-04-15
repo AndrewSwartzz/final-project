@@ -1,9 +1,66 @@
 [gd_scene load_steps=57 format=3 uid="uid://c64apnm77bvxd"]
 
 [ext_resource type="Script" uid="uid://cslddeinwtr0u" path="res://scripts/player.gd" id="1_3vyb7"]
-[ext_resource type="Texture2D" uid="uid://2nytxbdo3m3c" path="res://assets/camelot_ [version 1.0]/excalibur_.png" id="2_dqkch"]
+[ext_resource type="Texture2D" uid="uid://byhlduvv1rdvo" path="res://assets/6F886773-31C1-4884-A3E0-1BE1847E8895.PNG" id="2_dqkch"]
 [ext_resource type="Texture2D" uid="uid://dduggl3tgkw5e" path="res://assets/camelot_ [version 1.0]/lancelot_.png" id="2_g2els"]
 [ext_resource type="Texture2D" uid="uid://becxwi6w1rj44" path="res://assets/camelot_ [version 1.0]/dust_.png" id="3_qhqgy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5jhy"]
+atlas = ExtResource("2_dqkch")
+region = Rect2(34, 0, 787, 3464)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_holxr"]
+atlas = ExtResource("2_dqkch")
+region = Rect2(821, 0, 787, 3464)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mx1m4"]
+atlas = ExtResource("2_dqkch")
+region = Rect2(1608, 0, 787, 3464)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4gjji"]
+atlas = ExtResource("2_dqkch")
+region = Rect2(2395, 0, 787, 3464)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lxlsd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g5jhy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_holxr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mx1m4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4gjji")
+}],
+"loop": false,
+"name": &"catchLeft",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g5jhy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_holxr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mx1m4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4gjji")
+}],
+"loop": false,
+"name": &"catchRight",
+"speed": 7.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qhqgy"]
+radius = 10.986869
+height = 26.26206
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
 atlas = ExtResource("2_g2els")
@@ -340,8 +397,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ha2mi"]
-radius = 5.0
-height = 18.0
+radius = 8.0
+height = 22.0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dqkch"]
 lifetime_randomness = 0.3
@@ -350,75 +407,40 @@ initial_velocity_max = 49.45
 gravity = Vector3(0, 40, 0)
 scale_min = 0.5
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_u2ulf"]
-atlas = ExtResource("2_dqkch")
-region = Rect2(0, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6e8lb"]
-atlas = ExtResource("2_dqkch")
-region = Rect2(32, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2gdjj"]
-atlas = ExtResource("2_dqkch")
-region = Rect2(64, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sc3ue"]
-atlas = ExtResource("2_dqkch")
-region = Rect2(96, 64, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_lxlsd"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_u2ulf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6e8lb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2gdjj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sc3ue")
-}],
-"loop": false,
-"name": &"attackLeft",
-"speed": 7.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_u2ulf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6e8lb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2gdjj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sc3ue")
-}],
-"loop": false,
-"name": &"attackRight",
-"speed": 7.0
-}]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qhqgy"]
-radius = 10.986869
-height = 26.26206
-
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 1
 script = ExtResource("1_3vyb7")
 
+[node name="NetPivot" type="Node2D" parent="."]
+
+[node name="NetSprite" type="AnimatedSprite2D" parent="NetPivot"]
+visible = false
+position = Vector2(9.999999, -4.9999995)
+rotation = -1.5707964
+scale = Vector2(0.03397745, 0.02860126)
+sprite_frames = SubResource("SpriteFrames_lxlsd")
+animation = &"catchLeft"
+
+[node name="NetHitbox" type="Area2D" parent="NetPivot"]
+position = Vector2(16, 0)
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NetPivot/NetHitbox"]
+position = Vector2(-7.999999, -2)
+rotation = -1.6196655
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("CapsuleShape2D_qhqgy")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(12, -5)
+position = Vector2(14, -6)
 scale = Vector2(1, 1.03125)
 sprite_frames = SubResource("SpriteFrames_d2wvv")
-animation = &"idleLeft"
+animation = &"rollRight"
 autoplay = "idleRight"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(13, -2)
+z_index = 1
+position = Vector2(15, -3)
 shape = SubResource("CapsuleShape2D_ha2mi")
 
 [node name="DustParticles" type="GPUParticles2D" parent="."]
@@ -429,22 +451,5 @@ one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_dqkch")
 
-[node name="SwordPivot" type="Node2D" parent="."]
-
-[node name="SwordSprite" type="AnimatedSprite2D" parent="SwordPivot"]
-visible = false
-position = Vector2(16, 0)
-rotation = 1.5707964
-sprite_frames = SubResource("SpriteFrames_lxlsd")
-animation = &"attackRight"
-
-[node name="SwordHitbox" type="Area2D" parent="SwordPivot"]
-position = Vector2(16, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordPivot/SwordHitbox"]
-position = Vector2(-8.999998, 3)
-rotation = -1.6196655
-scale = Vector2(0.99999994, 0.99999994)
-shape = SubResource("CapsuleShape2D_qhqgy")
-
-[connection signal="body_entered" from="SwordPivot/SwordHitbox" to="." method="_on_sword_hitbox_body_entered"]
+[connection signal="body_entered" from="NetPivot/NetHitbox" to="." method="_on_sword_hitbox_body_entered"]
+[connection signal="body_entered" from="NetPivot/NetHitbox" to="." method="_on_net_hitbox_body_entered"]

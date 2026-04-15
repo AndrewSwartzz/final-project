@@ -1,10 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://civallmcmegew"]
+[gd_scene load_steps=3 format=3 uid="uid://civallmcmegew"]
 
 [ext_resource type="Script" uid="uid://db6dsb53jqx8t" path="res://scripts/door.gd" id="1_hpvv5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hpvv5"]
+size = Vector2(40, 20)
 
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_hpvv5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(10, 0)
+shape = SubResource("RectangleShape2D_hpvv5")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
