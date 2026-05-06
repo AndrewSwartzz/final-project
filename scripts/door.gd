@@ -1,10 +1,12 @@
 extends Area2D
 
 @export var target_position : Vector2
-@export var starts_locked : bool = false   # ⭐ NEW
+@export var starts_locked : bool = false
 
 var unlocked = false
 var player_in_range = false
+
+@onready var sprite = get_node_or_null("Sprite2D")
 
 
 func _ready():
@@ -13,13 +15,18 @@ func _ready():
 
 
 func update_state():
-	visible = true  # ✅ always visible
-	monitoring = unlocked  # only blocks interaction if locked
+
+	if sprite:
+		sprite.visible = unlocked
+
+	monitoring = unlocked
 
 
 func unlock():
 	unlocked = true
-	monitoring = true
+	update_state()
+
+
 
 
 func _on_body_entered(body):

@@ -1,31 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://cc17fktlkui54"]
+[gd_scene load_steps=8 format=3 uid="uid://cc17fktlkui54"]
 
 [ext_resource type="Script" uid="uid://beh8doben70i1" path="res://scripts/character_body_2d.gd" id="1_7p1mj"]
-[ext_resource type="Texture2D" uid="uid://c41aw75fkqx27" path="res://assets/beetle_ice.png" id="2_md0e3"]
+[ext_resource type="Texture2D" uid="uid://hvo38mkw166y" path="res://assets/ChatGPT Image May 5, 2026, 06_23_10 PM.png" id="2_md0e3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ra3w"]
 atlas = ExtResource("2_md0e3")
-region = Rect2(0, 0, 38, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5uy6h"]
-atlas = ExtResource("2_md0e3")
-region = Rect2(38, 0, 38, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c4w8v"]
-atlas = ExtResource("2_md0e3")
-region = Rect2(76, 0, 38, 38)
+region = Rect2(0, 0, 768, 1024)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_md0e3"]
 atlas = ExtResource("2_md0e3")
-region = Rect2(0, 38, 38, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nenq2"]
-atlas = ExtResource("2_md0e3")
-region = Rect2(38, 38, 38, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_md484"]
-atlas = ExtResource("2_md0e3")
-region = Rect2(76, 38, 38, 38)
+region = Rect2(768, 0, 768, 1024)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_w8i8w"]
 animations = [{
@@ -34,10 +18,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_4ra3w")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5uy6h")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c4w8v")
+"texture": SubResource("AtlasTexture_md0e3")
 }],
 "loop": true,
 "name": &"moveDown",
@@ -45,13 +26,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_4ra3w")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_md0e3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nenq2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_md484")
 }],
 "loop": true,
 "name": &"moveUp",
@@ -69,12 +47,12 @@ z_index = 1
 script = ExtResource("1_7p1mj")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, 7)
-scale = Vector2(0.42105263, 0.36842105)
+position = Vector2(-0.35538015, 5.189629)
+scale = Vector2(0.019907866, 0.017948493)
 sprite_frames = SubResource("SpriteFrames_w8i8w")
-animation = &"moveUp"
+animation = &"moveDown"
 autoplay = "moveDown"
-frame_progress = 0.66961455
+frame_progress = 0.7282073
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 6.5)

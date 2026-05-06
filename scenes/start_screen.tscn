@@ -1,14 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://cpxdumek7yhin"]
 
 [ext_resource type="Script" uid="uid://ctrm31dpm4mqs" path="res://scripts/start_screen.gd" id="1_tx5wa"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_cllq7"]
-font_size = 50
-outline_size = 14
-outline_color = Color(0.7859488, 0, 0.08117028, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_tx5wa"]
-font_size = 25
+[ext_resource type="Texture2D" uid="uid://ca12hjqrnofii" path="res://assets/e087d0ad9f5db8bab11227f67a37e619.jpg" id="2_he1sj"]
+[ext_resource type="Texture2D" uid="uid://b5dr4r0k03b0m" path="res://assets/ChatGPT Image May 5, 2026, 03_16_18 PM.png" id="3_r2jwc"]
 
 [node name="StartScreen" type="Control"]
 layout_mode = 3
@@ -19,34 +13,22 @@ offset_right = 530.0
 offset_bottom = 298.0
 script = ExtResource("1_tx5wa")
 
-[node name="Title" type="Label" parent="."]
-layout_mode = 0
-offset_left = 6.0
-offset_top = -121.0
-offset_right = 339.0
-offset_bottom = -52.0
-text = "Mandible"
-label_settings = SubResource("LabelSettings_cllq7")
+[node name="E087d0Ad9f5Db8Bab11227f67a37e619" type="Sprite2D" parent="."]
+position = Vector2(84.250015, 72.000015)
+scale = Vector2(2.2910001, 1.9323529)
+texture = ExtResource("2_he1sj")
+
+[node name="ChatGptImageMay5,2026,031618Pm" type="Sprite2D" parent="."]
+position = Vector2(103.999985, -42.000008)
+scale = Vector2(0.40559903, 0.37841797)
+texture = ExtResource("3_r2jwc")
 
 [node name="StartButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = -64.0
-offset_top = -4.0
-offset_right = 303.0
-offset_bottom = 78.0
+offset_left = -91.0
+offset_top = 134.0
+offset_right = 276.0
+offset_bottom = 216.0
 text = "Start Game"
-
-[node name="Instructions" type="Label" parent="."]
-layout_mode = 0
-offset_left = -5.0
-offset_top = 117.0
-offset_right = 242.0
-offset_bottom = 228.0
-text = " Arrow Keys to Move
-Space to Roll
-Click to use Net
-E to Interact"
-label_settings = SubResource("LabelSettings_tx5wa")
-horizontal_alignment = 1
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

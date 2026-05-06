@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 var last_direction = "Left"
 
-@export var speed = 75
+@export var speed = 75 
 @export var roll_speed = 125
 @export var roll_duration = 0.7
 @export var health = 5
@@ -27,7 +27,7 @@ var bugs_caught = 0
 @onready var net_sprite = $NetPivot/NetSprite
 @onready var net_hitbox = $NetPivot/NetHitbox
 @onready var tilemap = get_parent().get_node("TileMap")
-@export var bug_scene : PackedScene
+@export var bug_scene = preload("res://scenes/enemy.tscn")
 
 
 func _physics_process(delta):
@@ -159,13 +159,20 @@ func start_catch():
 func _on_net_hitbox_body_entered(body):
 
 	if body.is_in_group("bug"):
-		body.queue_free()  
+		body.queue_free()
 		bugs_caught += 1
+
 		if bugs_caught >= 4:
-			if exit_door:
+			if exit_door and exit_door.has_method("unlock"):
 				exit_door.unlock()
+
 		update_bug_ui()
 		print("Bugs caught:", bugs_caught)
+
+
+	elif body.is_in_group("enemy"):
+		if body.has_method("take_damage"):
+			body.take_damage(1)
 
 	check_breakable_tile()
 
