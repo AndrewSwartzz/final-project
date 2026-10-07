@@ -4238,9 +4238,6 @@ cache/0/40/0/scale = 1.0
 [sub_resource type="LabelSettings" id="LabelSettings_psd7s"]
 font_size = 30
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_l3jag"]
-radius = 8.466497
-
 [node name="DungeonGame" type="Node2D" unique_id=1164104985]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=128792932]
@@ -4316,10 +4313,6 @@ texture = ExtResource("5_iop0d")
 [node name="Boss" parent="." unique_id=1567627766 instance=ExtResource("6_1sd0d")]
 position = Vector2(615, 276)
 scale = Vector2(1.54, 1.54)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Boss" unique_id=633276124]
-position = Vector2(2.5974026, -5.844156)
-shape = SubResource("CircleShape2D_l3jag")
 
 [node name="Npc" parent="." unique_id=978063677 instance=ExtResource("8_ccty1")]
 position = Vector2(214, -91)
