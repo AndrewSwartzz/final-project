@@ -1,34 +1,66 @@
-[gd_scene load_steps=4 format=3 uid="uid://cpxdumek7yhin"]
+[gd_scene format=3 uid="uid://cpxdumek7yhin"]
 
 [ext_resource type="Script" uid="uid://ctrm31dpm4mqs" path="res://scripts/start_screen.gd" id="1_tx5wa"]
 [ext_resource type="Texture2D" uid="uid://ca12hjqrnofii" path="res://assets/e087d0ad9f5db8bab11227f67a37e619.jpg" id="2_he1sj"]
-[ext_resource type="Texture2D" uid="uid://b5dr4r0k03b0m" path="res://assets/ChatGPT Image May 5, 2026, 03_16_18 PM.png" id="3_r2jwc"]
 
-[node name="StartScreen" type="Control"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_o7i0r"]
+load_path = "res://.godot/imported/ChatGPT Image May 5, 2026, 03_16_18 PM.png-90a40ff19cc4dc46805509101168314c.ctex"
+
+[node name="StartScreen" type="Control" unique_id=2134451902]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 490.0
-offset_top = 258.0
-offset_right = 530.0
-offset_bottom = 298.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_tx5wa")
 
-[node name="E087d0Ad9f5Db8Bab11227f67a37e619" type="Sprite2D" parent="."]
-position = Vector2(84.250015, 72.000015)
-scale = Vector2(2.2910001, 1.9323529)
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1654727165]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_he1sj")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=647699172]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 130.0
+offset_top = 48.0
+offset_right = -139.0
+offset_bottom = -256.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CompressedTexture2D_o7i0r")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="E087d0Ad9f5Db8Bab11227f67a37e619" type="Sprite2D" parent="." unique_id=1288911494]
+visible = false
+position = Vector2(575, 332)
+scale = Vector2(2.291, 1.93235)
 texture = ExtResource("2_he1sj")
 
-[node name="ChatGptImageMay5,2026,031618Pm" type="Sprite2D" parent="."]
-position = Vector2(103.999985, -42.000008)
-scale = Vector2(0.40559903, 0.37841797)
-texture = ExtResource("3_r2jwc")
-
-[node name="StartButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = -91.0
-offset_top = 134.0
-offset_right = 276.0
-offset_bottom = 216.0
+[node name="StartButton" type="Button" parent="." unique_id=1668913686]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.31
+anchor_top = 0.823
+anchor_right = 0.72
+anchor_bottom = 0.923
+offset_left = -6.12
+offset_top = -7.30402
+offset_right = 0.559937
+offset_bottom = -7.604
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
 text = "Start Game"
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

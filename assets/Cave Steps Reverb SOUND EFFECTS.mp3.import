@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://3m2b15yhjh5t"
+path="res://.godot/imported/Cave Steps Reverb SOUND EFFECTS.mp3-f015c6065f63044768318b0b838ac8c9.mp3str"
+
+[deps]
+
+source_file="res://assets/Cave Steps Reverb SOUND EFFECTS.mp3"
+dest_files=["res://.godot/imported/Cave Steps Reverb SOUND EFFECTS.mp3-f015c6065f63044768318b0b838ac8c9.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

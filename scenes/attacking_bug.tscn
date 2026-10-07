@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bql7ds7v2wse4"]
+[gd_scene load_steps=10 format=3 uid="uid://bql7ds7v2wse4"]
 
 [ext_resource type="Script" uid="uid://d0epcp7pirop3" path="res://scenes/attacking_bug.gd" id="1_o68lv"]
 [ext_resource type="Texture2D" uid="uid://hvo38mkw166y" path="res://assets/ChatGPT Image May 5, 2026, 06_23_10 PM.png" id="2_o68lv"]
+[ext_resource type="AudioStream" uid="uid://n1mwwrafe3g7" path="res://assets/Bug Crawling Sound Effect.mp3" id="3_15y1n"]
+[ext_resource type="AudioStream" uid="uid://mjv17y2tidr" path="res://assets/blood.mp3" id="4_jl7dx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_15y1n"]
 atlas = ExtResource("2_o68lv")
@@ -73,5 +75,12 @@ shape = SubResource("RectangleShape2D_4ra3w")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 7.25)
 shape = SubResource("RectangleShape2D_md0e3")
+
+[node name="SquirmSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_15y1n")
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_jl7dx")
+volume_db = 9.592
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

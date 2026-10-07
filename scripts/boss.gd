@@ -6,7 +6,7 @@ extends CharacterBody2D
 @export var damage : int = 1
 @export var attack_cooldown : float = 1.0
 
-@export var health : int = 10  # ⭐ MORE HEALTH
+@export var health : int = 10
 @export var knockback_force : float = 250
 
 var direction = Vector2.LEFT
@@ -18,6 +18,8 @@ var dying = false
 var knockback_velocity = Vector2.ZERO
 
 @onready var sprite = $AnimatedSprite2D
+@onready var squirm_sound = $SquirmSound
+@onready var hit_sound = $HitSound
 
 
 func _ready():
@@ -34,11 +36,20 @@ func _physics_process(delta):
 	if player:
 		var distance = global_position.distance_to(player.global_position)
 
+		# Chase player if close enough
 		if distance < detection_radius:
 			chasing = true
 			direction = (player.global_position - global_position).normalized()
 		else:
 			chasing = false
+
+		# Play squirm sound only when nearby
+		if distance < 200:
+			if squirm_sound and !squirm_sound.playing:
+				squirm_sound.play()
+		else:
+			if squirm_sound and squirm_sound.playing:
+				squirm_sound.stop()
 
 	if knockback_velocity.length() > 0:
 		velocity = knockback_velocity
@@ -54,6 +65,7 @@ func _physics_process(delta):
 					randf_range(-1, 1),
 					randf_range(-1, 1)
 				).normalized()
+
 				change_dir_timer = randf_range(1.0, 3.0)
 
 			velocity = direction * speed
@@ -89,13 +101,16 @@ func attack_cooldown_timer():
 	can_attack = true
 
 
-
 func take_damage(amount):
 
 	if dying:
 		return
 
 	health -= amount
+
+	# Play hit sound when damaged
+	if hit_sound:
+		hit_sound.play()
 
 	get_tree().call_group("camera", "shake")
 
@@ -118,6 +133,24 @@ func die():
 	dying = true
 	velocity = Vector2.ZERO
 
+	# Stop squirm audio on death
+	if squirm_sound:
+		squirm_sound.stop()
+
+	# Add to bug count like normal bugs
+	var player = get_tree().get_first_node_in_group("player")
+
+	if player:
+		player.bugs_caught += 1
+		player.update_bug_ui()
+
+		print("Boss defeated! Bugs caught:", player.bugs_caught)
+
+		if player.bugs_caught >= 4:
+			if player.exit_door and player.exit_door.has_method("unlock"):
+				player.exit_door.unlock()
+
+	# Death fade effect
 	for i in range(10):
 		sprite.modulate.a -= 0.1
 		await get_tree().create_timer(0.05).timeout

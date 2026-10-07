@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dalvl0shqtmjx"]
+
+[ext_resource type="Script" path="res://scripts/npc.gd" id="1_nh2m4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nh2m4"]
+size = Vector2(34, 33)
+
+[node name="Npc" type="Area2D"]
+script = ExtResource("1_nh2m4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.04, 0.04)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_nh2m4")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cakusv1qg7vya"
+path="res://.godot/imported/De-Stress with Deepnest  Relaxing Hollow Knight Ambience for SleepStudying.mp3-83afe2132857ffc816b8b1be937b1734.mp3str"
+
+[deps]
+
+source_file="res://assets/De-Stress with Deepnest  Relaxing Hollow Knight Ambience for SleepStudying.mp3"
+dest_files=["res://.godot/imported/De-Stress with Deepnest  Relaxing Hollow Knight Ambience for SleepStudying.mp3-83afe2132857ffc816b8b1be937b1734.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

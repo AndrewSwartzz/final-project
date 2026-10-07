@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cc17fktlkui54"]
 
-[ext_resource type="Script" uid="uid://beh8doben70i1" path="res://scripts/character_body_2d.gd" id="1_7p1mj"]
+[ext_resource type="Script" path="res://scripts/character_body_2d.gd" id="1_7p1mj"]
 [ext_resource type="Texture2D" uid="uid://hvo38mkw166y" path="res://assets/ChatGPT Image May 5, 2026, 06_23_10 PM.png" id="2_md0e3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ra3w"]
@@ -47,12 +47,12 @@ z_index = 1
 script = ExtResource("1_7p1mj")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-0.35538015, 5.189629)
-scale = Vector2(0.019907866, 0.017948493)
+position = Vector2(-1, 2.18963)
+scale = Vector2(0.0286458, 0.0238079)
 sprite_frames = SubResource("SpriteFrames_w8i8w")
 animation = &"moveDown"
 autoplay = "moveDown"
-frame_progress = 0.7282073
+frame_progress = 0.728207
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 6.5)

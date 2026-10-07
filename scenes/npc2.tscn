@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://erhiwwmmg8ie"]
+
+[ext_resource type="Script" path="res://scripts/npc.gd" id="1_skhwu"]
+[ext_resource type="Texture2D" uid="uid://hcsxwxp2etf7" path="res://assets/ChatGPT_Image_May_12__2026__02_49_02_AM-removebg-preview.png" id="2_o1r1m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bmnyl"]
+atlas = ExtResource("2_o1r1m")
+region = Rect2(5, 0, 226, 318)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awjb3"]
+atlas = ExtResource("2_o1r1m")
+region = Rect2(231, 0, 226, 318)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b60xe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bmnyl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awjb3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 0.2
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nh2m4"]
+size = Vector2(237, 220)
+
+[node name="Npc" type="Area2D"]
+script = ExtResource("1_skhwu")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-9, -36.4196)
+scale = Vector2(1.08811, 0.991071)
+sprite_frames = SubResource("SpriteFrames_b60xe")
+autoplay = "default"
+frame_progress = 0.687561
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5.5, -1)
+shape = SubResource("RectangleShape2D_nh2m4")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

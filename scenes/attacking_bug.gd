@@ -18,6 +18,8 @@ var knockback_velocity = Vector2.ZERO
 var dying = false
 
 @onready var sprite = $Sprite2D
+@onready var squirm_sound = $SquirmSound
+@onready var hit_sound = $HitSound
 
 
 func _ready():
@@ -39,11 +41,21 @@ func _physics_process(delta):
 
 	if player:
 		var distance = global_position.distance_to(player.global_position)
+
+		# Chase behavior
 		if distance < detection_radius:
 			chasing = true
 			direction = (player.global_position - global_position).normalized()
 		else:
 			chasing = false
+
+		# Squirm sound only when nearby
+		if distance < 150:
+			if squirm_sound and !squirm_sound.playing:
+				squirm_sound.play()
+		else:
+			if squirm_sound and squirm_sound.playing:
+				squirm_sound.stop()
 
 	# Movement
 	if chasing:
@@ -84,7 +96,6 @@ func _on_area_2d_body_entered(body):
 		if body.has_method("take_damage"):
 			body.take_damage(damage)
 
-		# Apply knockback to THIS bug (prevents sticking)
 		var knock_dir = (global_position - body.global_position).normalized()
 		knockback_velocity = knock_dir * knockback_force
 
@@ -104,6 +115,17 @@ func get_caught():
 
 	caught = true
 	velocity = Vector2.ZERO
+
+	# Stop squirm audio
+	if squirm_sound:
+		squirm_sound.stop()
+
+	# Play hit sound
+	if hit_sound:
+		hit_sound.play()
+
+	# Small delay so sound plays before disappearing
+	await get_tree().create_timer(0.15).timeout
 
 	for i in range(8):
 		sprite.modulate.a -= 0.125

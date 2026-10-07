@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bwhhi0ouw675j"]
+[gd_scene format=3 uid="uid://bwhhi0ouw675j"]
 
 [ext_resource type="Script" uid="uid://cvyw32ktkn7hy" path="res://scripts/boss.gd" id="1_dlmty"]
 [ext_resource type="Texture2D" uid="uid://hvo38mkw166y" path="res://assets/ChatGPT Image May 5, 2026, 06_23_10 PM.png" id="2_neq0i"]
@@ -36,29 +36,22 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jncid"]
-size = Vector2(35, 35)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qnbj4"]
-size = Vector2(42, 41)
+size = Vector2(19, 28)
 
-[node name="Boss" type="CharacterBody2D" groups=["enemy"]]
+[node name="Boss" type="CharacterBody2D" unique_id=1079589482 groups=["enemy"]]
 script = ExtResource("1_dlmty")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-1.0000005, -6.502287)
-scale = Vector2(0.059674196, 0.05370647)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1301325657]
+position = Vector2(-1, -6.50229)
+scale = Vector2(0.0596742, 0.0537065)
 sprite_frames = SubResource("SpriteFrames_2cdgk")
 animation = &"moveUp"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, -4.5)
-shape = SubResource("RectangleShape2D_jncid")
+[node name="Area2D" type="Area2D" parent="." unique_id=845370332]
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-1, -4.5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=201726299]
+position = Vector2(1.5, -7)
 shape = SubResource("RectangleShape2D_qnbj4")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[node name="SquirmSound" type="AudioStreamPlayer2D" parent="." unique_id=583830871]
